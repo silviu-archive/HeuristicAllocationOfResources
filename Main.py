@@ -3,7 +3,7 @@
 
 from Parameters import Parameters
 from ReadData import readInput
-from BasicCalculations import calculateNumberOfPeriods
+from BasicCalculations import calculateNumberOfPeriods, groupNormalization
 from ProjectClass import projectClassInit
 from GroupClass import groupClassInit
 
@@ -25,6 +25,10 @@ def main():
     projectList = projectClassInit(numberOfProjects, dfProjectMap, dfProjectForecast)
     #Initiate Group class (non-normalized)
     groupList = groupClassInit(numberOfGroups, projectList, groupCapacities)
+    #Normalize group requests
+    projectList = groupNormalization(groupList, projectList)
+    #Create new Group class (normalized)
+    newGroupList = groupClassNormalized(planningHorizon, numberOfGroups, groupCapacity, projectList)
 
 
     print('x')

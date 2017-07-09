@@ -8,3 +8,16 @@ def calculateNumberOfPeriods(numberOfWeeks):
     else:
         numberOfPeriods = int(numberOfWeeks / Parameters.periodicity)
     return  numberOfPeriods
+
+def groupNormalization(groupList, projectList):
+    # Normalize group requests
+    for group in groupList:
+        for week in group.weeks:
+            if group.getGroupWeeklyUsage(week) > group.capacity:
+                for project in projectList:
+                    if project.group == group.group and week in project.runningWeeks:
+                        project.normUsage(int(project.getWeeklyUsage(week) /
+                                              (group.getGroupWeeklyUsage(week) / group.capacity)),
+                                          week)
+
+    return projectList
