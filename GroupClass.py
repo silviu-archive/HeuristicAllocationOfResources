@@ -51,5 +51,28 @@ def groupClassInit(numberOfGroups, projectList, groupCapacities):
 			projectUsage = project.getWeeklyUsage(i)
 			#Add project usage to the relevant group
 			groupList[project.group-1].groupWeeklyUsage(projectUsage, i)
-
 	return groupList
+
+
+def groupClassNormalized(numberOfGroups, groupCapacity, projectList):
+	# Create new group usages (separate entity)
+	newGroupList = [groupClass(i, Parameters.planningHorizon) for i in range(1, numberOfGroups + 1)]
+	for group in newGroupList:
+		group.groupCapacity(groupCapacity[group.group - 1])
+		group.groupWeeks(list(range(1, Parameters.planningHorizon + 1)))
+	# Calculate the new group usages & specify which projects are in each group
+	for project in projectList:
+		#Get weeks in which project is running
+		projectWeeks = project.runningWeeks
+		#Iterate over running weeks
+		for i in projectWeeks:
+			#Get project usage in a particular week
+			projectUsage = project.getWeeklyUsage(i)
+			#Add project usage to the relevant group
+			newGroupList[project.group - 1].groupWeeklyUsage(projectUsage, i)
+		#If the project is in the assigned group AND the project is not in the new group list
+		if project.group == newGroupList[project.group - 1].group \
+							and project.project not in newGroupList[project.group - 1].projects:
+			#Assign project to new group list
+			newGroupList[project.group - 1].projectsInGroup(project.project)
+	return newGroupList
