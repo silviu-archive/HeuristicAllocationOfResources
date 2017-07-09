@@ -24,13 +24,11 @@ def readInput():
     dfProjectForecast['project'] = dfProjectForecast['project'].map(lambda x: int(x[8:]))
     dfProjectForecast['slots'] = dfProjectForecast['slots'].astype(np.int64)
     #Calculate week distance from week t = 0 (week 1 year 1 = 1)
-    dfProjectForecast['WeeksFromStart'] = dfProjectForecast['week'] + (dfProjectForecast['year'] - 1) * 52
+    dfProjectForecast['WeeksFromStart'] = dfProjectForecast['week'] + (dfProjectForecast['year'] - 1) * Parameters.periodicity
     dfProjectForecast['WeeksFromStart'] = dfProjectForecast['WeeksFromStart'].map(lambda x: int(x))
     #Remove week and year columns
     dfProjectForecast.drop('week', axis=1, inplace=True)
     dfProjectForecast.drop('year', axis=1, inplace=True)
-    #Caclculate number of projects
-    numberOfProjects = len(dfProjectForecast['project'].unique())
     #Remove project-weeks not in planning horizon
     dfProjectForecast = dfProjectForecast.loc[dfProjectForecast['WeeksFromStart'] <= Parameters.planningHorizon]
     dfProjectForecast.reset_index(inplace=True, drop=True)
@@ -41,8 +39,7 @@ def readInput():
     #Transform strings into integers
     dfGroupCapacities['group'] = dfGroupCapacities['group'].map(lambda x: int(x[6:]))
     dfGroupCapacities['cap'] = dfGroupCapacities['cap'].map(lambda x: int(x))
-    #Group capacities ordered array
     dfGroupCapacities.sort_values(by='group', inplace=True)
-    groupCapacityList = dfGroupCapacities['cap'].tolist()
+    dfGroupCapacities.columns = ['Group', 'Capacity']
 
-    return dfProjectMap, dfProjectForecast, dfGroupCapacities, numberOfProjects, groupCapacityList
+    return dfProjectMap, dfProjectForecast, dfGroupCapacities

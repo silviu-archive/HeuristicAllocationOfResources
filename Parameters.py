@@ -9,14 +9,16 @@ class Parameters():
     groupCapacities = 'J:\Source\Datasets\HeuristicAllocationOfResources\GroupCaps.csv'
 
     #Number of weeks for which to plan the allocation
-    planningHorizon = 312
+    planningHorizon = 100
 
+    #Periodicity of time interval
+    periodicity = 52
 
 
 
     #Placeholders from old usage
     # Input by user
-    planningHorizon = 312
+
     periodicity = 52
     numberOfClusters = 3
     clusterCapacity = [2100, 2100, 2100]
