@@ -19,7 +19,6 @@ class Parameters():
     #Placeholders from old usage
     # Input by user
 
-    periodicity = 52
     numberOfClusters = 3
     clusterCapacity = [2100, 2100, 2100]
     numberOfObjectives = 3
