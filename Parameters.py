@@ -15,6 +15,17 @@ class Parameters():
     periodicity = 52
 
 
+    #Calculated parameters
+    numberOfProjects = -1
+    numberOfGroups = -1
+    numberOfWeeks = -1
+    groupCapacitiesArray = -1
+    numberOfPeriods = -1
+
+
+
+
+
 
     #Placeholders from old usage
     # Input by user
